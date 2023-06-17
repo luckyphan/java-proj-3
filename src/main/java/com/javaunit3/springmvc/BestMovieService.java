@@ -6,23 +6,30 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BestMovieService {
-//    @Autowired
+//    @Autowired same objective of injection by using contructor and setter
     private Movie movie;
 
-    //default bean id for TitanicMovie is titanicMovie
-    //Qualifier annotation is
+    //constructor injection
+//    @Autowired
+//    public BestMovieService(Movie movie) {
+//        this.movie = movie;
+//    }
+
+    //since creating the TitanicMovie same type as BatmanMovie, doesnt know which bean to use and throws error
+    //constructor that defaults the bean id to TitanicMovie
     @Autowired
-    public BestMovieService(@Qualifier("titanicMovie")Movie movie){
+    public BestMovieService(@Qualifier("titanicMovie") Movie movie) {
         this.movie = movie;
     }
+
     public Movie getBestMovie(){
         return movie;
     }
 
+    //setter injection
 //    @Autowired
-//    public void setMovie(Movie movie){
+//    public void setMovie(Movie movie) {
 //        this.movie = movie;
 //    }
-
 
 }

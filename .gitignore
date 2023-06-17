@@ -1,2 +1,3 @@
 target
-src.main.java.com.resources
+src/main/java.com/resources/hibernate.cfg.xml
+src/main/java.com/resources/application.properties
