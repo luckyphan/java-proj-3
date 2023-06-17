@@ -1,5 +1,8 @@
 package com.javaunit3.springmvc;
 
+import com.javaunit3.springmvc.model.MovieEntity;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 public class MovieController {
     @Autowired
     private BestMovieService bestMovieService;
+    //set by bean for SessionFactory
+    @Autowired
+    private SessionFactory sessionFactory;
 
     //the endpoint of / would return the index page
     @RequestMapping("/")
@@ -44,5 +50,31 @@ public class MovieController {
         String movieTitle= req.getParameter("movieTitle");
         model.addAttribute("BestMovieVote",movieTitle);
         return "voteForBestMovie";
+    }
+    //the endpoint of addMovieForm would return the addMovie page
+    @RequestMapping("/addMovieForm")
+    public String addMovieForm(){
+        return "addMovie";
+    }
+    //the endpoint of addMovie would return the addMovie page
+    @RequestMapping("/addMovie")
+    public String addMovie(HttpServletRequest req, Model model){
+        String movieTitle = req.getParameter("movieTitle");
+        String maturityRating = req.getParameter("maturityRating");
+        String genre = req.getParameter("genre");
+
+        MovieEntity movieEntity = new MovieEntity();
+        movieEntity.setTitle(movieTitle);
+        movieEntity.setMaturityRating(maturityRating);
+        movieEntity.setGenre(genre);
+        //the SessionFactory is long persistence
+        //Session object is short persistence to enable CRUD operations
+        Session session = sessionFactory.getCurrentSession();
+        //begin, save, and commit
+        session.beginTransaction();
+        session.save(movieEntity);
+        session.getTransaction().commit();
+
+        return "addMovie";
     }
 }
