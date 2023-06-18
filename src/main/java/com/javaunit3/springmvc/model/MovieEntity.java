@@ -1,14 +1,33 @@
 package com.javaunit3.springmvc.model;
 
 import javax.persistence.*;
+import java.util.List;
 
+//@Entity is a persistent object that stores records in DB (user, product, data the app needs to persistently retrieve
 @Entity
 @Table(name = "movies")
 public class MovieEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "movie_id")
+    @Id// the primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //is using special identity columns in DB to generate value of insertion
+    @Column(name = "movie_id") //indicates to add column
     private Integer id;
+    //one to many relationship that creates the object for injection
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "movie_id")
+    private List<VoteEntity> votes;
+
+    public List<VoteEntity> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<VoteEntity> votes) {
+        this.votes = votes;
+    }
+
+    public void addVote(VoteEntity vote)
+    {
+        this.votes.add(vote);
+    }
 
     @Column(name = "title")
     private String title;
@@ -50,7 +69,6 @@ public class MovieEntity {
     public void setGenre(String genre) {
         this.genre = genre;
     }
-
 
 
 

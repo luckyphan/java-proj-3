@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BestMovieService {
-//    @Autowired same objective of injection by using contructor and setter
+//    @Autowired same objective of injection by using constructor and setter
     private Movie movie;
 
     //constructor injection
